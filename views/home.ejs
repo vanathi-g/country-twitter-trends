@@ -1,0 +1,77 @@
+<%- include('header') %>
+<div>
+    <h1>What's Trending Around the World?</h1>
+    <div id="mapid"></div>
+    <div>
+    	<h3>Click on a country to get the top 3 trending topics on Twitter in the selected country!</h3>
+    </div>
+</div>
+<script>
+function getLocation() {
+    if (navigator.geolocation) {
+        console.log(navigator.geolocation);
+        navigator.geolocation.getCurrentPosition(locationSuccess, locationError);
+    } else {
+        console.log("Browser does not support geolocation");
+        const latitude = 51.5;
+        const longitude = -0.10;
+        renderMap(latitude, longitude);
+    }
+}
+
+function locationSuccess(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    renderMap(latitude, longitude);
+
+}
+
+function locationError(error) {
+    const code = error.code;
+    const message = error.message;
+    console.log(code + "::" + message);
+
+    const latitude = 51.5;
+    const longitude = -0.10;
+    renderMap(latitude, longitude);
+}
+
+function renderMap(latitude, longitude) {
+    var mymap = L.map('mapid').setView([latitude, longitude], 2);
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 3,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: '<%= mapbox_token %>'
+    }).addTo(mymap);
+
+    var marker = L.marker([latitude, longitude]).addTo(mymap);
+    // marker.bindPopup(`<b>${latitude}, ${longitude}</b>`).openPopup();
+
+    function onMapClick(e) {
+        getTrending(e.latlng)
+    }
+
+    function getTrending(location) {
+        const { lat, lng } = location;
+        var xmlhttp = new XMLHttpRequest;
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                marker
+                    .setLatLng(location)
+                    .bindPopup(`${this.responseText}`)
+                    .openPopup();
+            }
+        }
+        xmlhttp.open('GET', `/loc?lat=${lat}&lng=${lng}`, true);
+        xmlhttp.send();
+    }
+
+    getTrending({lat: latitude, lng: longitude});
+
+    mymap.on('click', onMapClick);
+}
+</script>
+<%- include('footer') %>

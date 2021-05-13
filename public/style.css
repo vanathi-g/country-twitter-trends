@@ -1,0 +1,11 @@
+#mapid { height: 650px; }
+
+li {
+	margin: 0;
+	font-weight: bold;
+}
+
+ol {
+	padding: 5px;
+	white-space: nowrap;
+}
