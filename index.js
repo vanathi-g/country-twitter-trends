@@ -46,20 +46,25 @@ app.get('/loc', function(req, res){
 	const params = url.parse(req.url,true).query;
 
 	client.get('trends/closest.json', {lat: params.lat, long: params.lng}, function(error, place, response) {
-	  if(error) throw error;
-	  const woeid = place[0].woeid;
-	  client.get('trends/place.json', {id: woeid}, function(error, topics, response){
-	  	let trends = topics[0].trends;
-	  	trends.sort((a, b) => b.tweet_volume - a.tweet_volume)
-
-	  	let content = `<ol>`
-	  	for(let i=0; i<3; i++){
-	  		content += `<li>${trends[i].name}</li>`
-	  	}
-	  	content += `</ol>`
-
+	  if(error) {
 	  	res.type('.html');
-	  	res.send(content);
-	  });
+	  	res.send('error');
+	  } else {
+	  	const woeid = place[0].woeid;
+	  	const country = place[0].country;
+	  	client.get('trends/place.json', {id: woeid}, function(error, topics, response){
+		  	let trends = topics[0].trends;
+		  	trends.sort((a, b) => b.tweet_volume - a.tweet_volume)
+
+		  	let content = `<p id='country-name'>${country}</p><ol>`
+		  	for(let i=0; i<3; i++){
+		  		content += `<li>${trends[i].name}</li>`
+		  	}
+		  	content += `</ol>`
+
+		  	res.type('.html');
+		  	res.send(content);
+	  	});
+	  }
 	});	
 });

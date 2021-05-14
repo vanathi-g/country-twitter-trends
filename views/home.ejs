@@ -5,6 +5,9 @@
     <div>
     	<class="desc">Click on a country to get the top 3 trending topics on Twitter in the selected country!</p>
     </div>
+    <div id="loc-alert" class="alert alert-danger" role="alert" hidden=true>
+        Invalid location selected!
+    </div>
 </div>
 <script>
 function getLocation() {
@@ -58,6 +61,7 @@ function renderMap(latitude, longitude) {
     function getTrending(location) {
         const { lat, lng } = location;
         var xmlhttp = new XMLHttpRequest;
+        document.getElementById('loc-alert').hidden = true;
 
         marker
         .setLatLng(location)
@@ -66,9 +70,13 @@ function renderMap(latitude, longitude) {
 
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                marker
-                    .bindPopup(`${this.responseText}`)
-                    .openPopup();
+                if(this.responseText == 'error'){
+                    document.getElementById('loc-alert').hidden = false;
+                } else {
+                    marker
+                        .bindPopup(`${this.responseText}`)
+                        .openPopup();
+                }
             }
         }
         xmlhttp.open('GET', `/loc?lat=${lat}&lng=${lng}`, true);

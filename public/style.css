@@ -77,6 +77,14 @@ a:hover {
   100% { transform: rotate(360deg); }
 }
 
+#country-name{
+	margin: 0;
+	border-bottom: 2px solid gray;
+	color: gray;
+	font-weight: bold;
+	font-size: 0.9rem;
+}
+
 li {
 	margin: 0;
 	font-weight: bold;
@@ -85,4 +93,5 @@ li {
 ol {
 	padding: 5px;
 	white-space: nowrap;
+	margin-left: 10px;
 }
