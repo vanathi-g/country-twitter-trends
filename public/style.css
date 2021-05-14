@@ -1,3 +1,65 @@
+body{
+	background: #00c6ff;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to bottom, #1DA1F2, #00c6ff);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to bottom, #1DA1F2, #00c6ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+/*NAVBAR*/
+.navbar {
+	background-color: #1DA1F2;
+	padding: 8px 0;
+}
+
+.navbar-brand{
+	color: white;
+	font-family: 'Khula', sans-serif;
+}
+
+i{
+	margin-right: 10px;
+}
+
+/*FOOTER*/
+footer {
+	background-color: #07C4FA;
+	height: 50px;
+	color: white;
+	padding: 12px 0;
+	font-family: 'Khula', sans-serif;
+}
+
+a {
+	text-decoration: none;
+	color: white;
+}
+
+a:hover {
+	color: whitesmoke;
+}
+
+/*CONTENT*/
+.main-container{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	background-color: white;
+	min-height: 100vh;
+	padding: 0;
+}
+
+.content-card{
+	padding: 3%;
+}
+
+.main-title{
+	font-size: 2rem;
+	font-weight: bold;
+}
+
+.desc {
+	font-size: 1.25rem;
+}
+
 #mapid { height: 650px; }
 
 li {

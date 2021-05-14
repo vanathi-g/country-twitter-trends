@@ -31,11 +31,11 @@ var client = new Twitter({
 });
 
 // SERVER
-
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 });
 
+// ROUTING
 app.get('/', function (req, res) {
 	res.render('home',{
 		title: 'Home',
@@ -63,4 +63,10 @@ app.get('/loc', function(req, res){
 	  	res.send(content);
 	  });
 	});	
+});
+
+app.get('/test', function(req, res){
+	res.render('test', {
+		title: 'Test'
+	});
 });
