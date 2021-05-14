@@ -8,7 +8,6 @@ const url = require('url');
 const Twitter = require('twitter');
 
 const app = express();
-const port = 3000;
 
 var path = require('path');
 app.use(express.static(path.join(__dirname, 'public')))
@@ -31,8 +30,8 @@ var client = new Twitter({
 });
 
 // SERVER
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+app.listen(process.env.PORT || 3000, () => {
+    console.log(`Server started up!`)
 });
 
 // ROUTING
@@ -63,10 +62,4 @@ app.get('/loc', function(req, res){
 	  	res.send(content);
 	  });
 	});	
-});
-
-app.get('/test', function(req, res){
-	res.render('test', {
-		title: 'Test'
-	});
 });
