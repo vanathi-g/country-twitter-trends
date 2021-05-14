@@ -40,7 +40,8 @@ function renderMap(latitude, longitude) {
     var mymap = L.map('mapid').setView([latitude, longitude], 2);
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 3,
+        maxZoom: 4,
+        minZoom: 2,
         id: 'mapbox/streets-v11',
         tileSize: 512,
         zoomOffset: -1,
@@ -57,10 +58,15 @@ function renderMap(latitude, longitude) {
     function getTrending(location) {
         const { lat, lng } = location;
         var xmlhttp = new XMLHttpRequest;
+
+        marker
+        .setLatLng(location)
+        .bindPopup(`<div class='loader'></div>`)
+        .openPopup();
+
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 marker
-                    .setLatLng(location)
                     .bindPopup(`${this.responseText}`)
                     .openPopup();
             }
@@ -70,7 +76,6 @@ function renderMap(latitude, longitude) {
     }
 
     getTrending({lat: latitude, lng: longitude});
-
     mymap.on('click', onMapClick);
 }
 </script>
